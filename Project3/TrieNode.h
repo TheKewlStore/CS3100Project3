@@ -3,7 +3,7 @@
 
 #define ALPHABET_SIZE  27
 #define END_OF_WORD -1
-#define EMPTY_NODE '-2'
+#define EMPTY_NODE 0
 
 using namespace std;
 
@@ -27,7 +27,7 @@ public:
 
 	void initializeAlphabet();
 
-	void insert(string);
+	void insert(string, int&);
 
 	bool find(string);
 };

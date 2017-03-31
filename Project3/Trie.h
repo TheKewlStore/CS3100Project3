@@ -9,6 +9,8 @@ class Trie
 {
 private:
 	TrieNode* root;
+	int numberWords;
+	int numberNodes;
 public:
 	Trie();
 	~Trie();

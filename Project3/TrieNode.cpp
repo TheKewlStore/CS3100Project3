@@ -4,7 +4,7 @@
 
 TrieNode::TrieNode()
 {
-	this->alphabet = nullptr;
+	alphabet = nullptr;
 	value = EMPTY_NODE;
 }
 
@@ -38,7 +38,7 @@ void TrieNode::initializeAlphabet()
 }
 
 
-void TrieNode::insert(string value)
+void TrieNode::insert(string value, int& count)
 {
 	if (this->alphabet == nullptr) {
 		// We can't instantiate our array of TrieNodes in the constructor or we'll get a stack overflow.
@@ -58,9 +58,9 @@ void TrieNode::insert(string value)
 		// so only recurse if we have more than one character.
 		// Take a substring of the parameter, removing the first character, and call insert on our next letter node.
 		string leftovers = value.substr(1, value.length());
-
-		nextLetterNode->insert(leftovers);
+		nextLetterNode->insert(leftovers, count);
 	}
+	count++;
 }
 
 

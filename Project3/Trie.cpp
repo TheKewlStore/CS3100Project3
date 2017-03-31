@@ -5,6 +5,8 @@
 Trie::Trie()
 {
 	root = new TrieNode();
+	numberWords = 0;
+	numberNodes = 0;
 }
 
 
@@ -16,13 +18,13 @@ Trie::~Trie()
 
 int Trie::count()
 {
-	return 0;
+	return numberWords;
 }
 
 
 int Trie::getSize()
 {
-	return 0;
+	return numberNodes;
 }
 
 
@@ -32,8 +34,9 @@ bool Trie::insert(string value)
 		return false;
 	}
 
-	this->root->insert(value);
+	this->root->insert(value, this->numberNodes);
 
+	numberWords++;
 	return true;
 }
 
@@ -44,13 +47,13 @@ bool Trie::find(string value)
 }
 
 
-int Trie::completeCount(string)
+int Trie::completeCount(string value)
 {
-	return 0;
+	return this->complete(value).size();
 }
 
 
-vector<string> Trie::complete(string)
+vector<string> Trie::complete(string value)
 {
 	return vector<string>();
 }
