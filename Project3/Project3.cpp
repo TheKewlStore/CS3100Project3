@@ -29,6 +29,29 @@ bool testInsert() {
 }
 
 
+bool testSizeAndCount() {
+	Trie myTrie;
+
+	myTrie.insert("test");
+	myTrie.insert("testing");
+	myTrie.insert("woo");
+	myTrie.insert("woo");
+	myTrie.insert("wooo");
+	myTrie.insert("hoo");
+
+	if (myTrie.getSize() != 14) {
+		cout << "Trie::getSize does not return the proper number of nodes" << endl;
+		return false;
+	}
+	else if (myTrie.count() != 5) {
+		cout << "Trie::count() does not return the proper number of words" << endl;
+		return false;
+	}
+
+	return true;
+}
+
+
 void checkTestSuccess(bool success, int& passes, int& failures) {
 	if (success) {
 		cout << ".";
@@ -46,6 +69,7 @@ int main()
 	int failures = 0;
 
 	checkTestSuccess(testInsert(), passes, failures);
+	checkTestSuccess(testSizeAndCount(), passes, failures);
 
 	cout << endl;
 

@@ -47,11 +47,14 @@ void TrieNode::insert(string value, int& count)
 	}
 
 	// Get the index of the node that references the next character.
-	int alphabetIndex = index(value.at(0));
+	char nextCharacter = value.at(0);
+	int alphabetIndex = index(nextCharacter);
 	TrieNode* nextLetterNode = this->alphabet[alphabetIndex];
 
-	// Store the first character of the value in the next node's value field.
-	nextLetterNode->setValue(value.at(0));
+	if (nextLetterNode->value != nextCharacter) {
+		nextLetterNode->value = nextCharacter;
+		count++;
+	}
 
 	if (value.length() > 1) {
 		// The value parameter will only have one character left when we're done, 
@@ -60,7 +63,6 @@ void TrieNode::insert(string value, int& count)
 		string leftovers = value.substr(1, value.length());
 		nextLetterNode->insert(leftovers, count);
 	}
-	count++;
 }
 
 
