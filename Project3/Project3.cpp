@@ -39,7 +39,8 @@ bool testSizeAndCount() {
 	myTrie.insert("wooo");
 	myTrie.insert("hoo");
 
-	if (myTrie.getSize() != 14) {
+	if (myTrie.getSize() != 19) {
+		// Expected count is 5 more than the expected letter nodes to account for end of word $ nodes.
 		cout << "Trie::getSize does not return the proper number of nodes" << endl;
 		return false;
 	}

@@ -24,7 +24,12 @@ TrieNode** TrieNode::getAlphabet()
 
 int TrieNode::index(char c)
 {
-	return int(c - 'a');
+	if (c == '$') {
+		return 26;
+	}
+	else {
+		return int(c - 'a');
+	}
 }
 
 
@@ -68,28 +73,27 @@ void TrieNode::insert(string value, int& count)
 
 bool TrieNode::find(string value)
 {
-	if (value.length() == 1) {
-		return true;
-	}
-
-	char currentCharacter = value.at(0);
-
 	if (this->alphabet == nullptr) {
 		// If we haven't even inserted anything, there's nothing to find.
 		return false;
 	}
 
-	string leftovers = value.substr(1, value.length());
-
-	int alphabetIndex = index(currentCharacter);
-
-	TrieNode* nextLetterNode = this->alphabet[alphabetIndex];
-
-	if (nextLetterNode->getValue() != currentCharacter) {
-		return false;
+	if (value.length() == 0) {
+		return this->alphabet[END_OF_WORD_INDEX]->value == END_OF_WORD;
 	}
 
-	return nextLetterNode->find(leftovers);
+	char nextCharacter = value.at(0);
+	string leftovers = value.substr(1, value.length());
+
+	int alphabetIndex = index(nextCharacter);
+	TrieNode* nextLetterNode = this->alphabet[alphabetIndex];
+
+	if (nextLetterNode->getValue() != nextCharacter) {
+		return false;
+	}
+	else {
+		return nextLetterNode->find(leftovers);
+	}
 }
 
 

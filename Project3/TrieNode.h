@@ -2,7 +2,8 @@
 #include <string>
 
 #define ALPHABET_SIZE  27
-#define END_OF_WORD -1
+#define END_OF_WORD_INDEX 26
+#define END_OF_WORD '$'
 #define EMPTY_NODE 0
 
 using namespace std;

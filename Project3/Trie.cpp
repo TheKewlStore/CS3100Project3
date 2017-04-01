@@ -34,7 +34,7 @@ bool Trie::insert(string value)
 		return false;
 	}
 
-	this->root->insert(value, this->numberNodes);
+	this->root->insert(value + "$", this->numberNodes);
 
 	numberWords++;
 	return true;
