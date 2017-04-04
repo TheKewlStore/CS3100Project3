@@ -15,7 +15,7 @@ using namespace std;
 class TrieNode
 {
 private:
-	TrieNode** alphabet;
+	TrieNode* alphabet[27] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	char value;
 
 public:

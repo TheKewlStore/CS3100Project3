@@ -4,15 +4,16 @@
 
 TrieNode::TrieNode()
 {
-	alphabet = nullptr;
 	value = EMPTY_NODE;
 }
 
 
 TrieNode::~TrieNode()
 {
-	if (alphabet) {
-		delete[] this->alphabet;
+	for (int i = 0; i < ALPHABET_SIZE; i++) {
+		if (this->alphabet[i]) {
+			delete this->alphabet[i];
+		}
 	}
 }
 
@@ -31,6 +32,10 @@ TrieNode* TrieNode::getChild(char character) {
 
 	TrieNode* node = this->alphabet[nextIndex];
 
+	if (node == nullptr) {
+		return nullptr;
+	}
+
 	if (node->value == EMPTY_NODE) {
 		return nullptr;
 	}
@@ -40,6 +45,9 @@ TrieNode* TrieNode::getChild(char character) {
 
 
 bool TrieNode::wordEnd() {
+	if (this->alphabet[END_OF_WORD_INDEX] == nullptr) {
+		return false;
+	}
 	return this->alphabet[END_OF_WORD_INDEX]->value == END_OF_WORD;
 }
 
@@ -61,24 +69,8 @@ int TrieNode::index(char c)
 }
 
 
-void TrieNode::initializeAlphabet()
-{
-	alphabet = new TrieNode*[ALPHABET_SIZE];
-
-	for (int i = 0; i < ALPHABET_SIZE; i++) {
-		alphabet[i] = new TrieNode();
-	}
-}
-
-
 void TrieNode::insert(string value, int& count)
 {
-	if (this->alphabet == nullptr) {
-		// We can't instantiate our array of TrieNodes in the constructor or we'll get a stack overflow.
-		// Initialize it on an insert if it hasn't already been done.
-		this->initializeAlphabet();
-	}
-
 	// Get the index of the node that references the next character.
 	// Since we always start at the root node which is simply a placeholder, 
 	// we always start looking for our value on the next node.
@@ -92,6 +84,11 @@ void TrieNode::insert(string value, int& count)
 	}
 
 	TrieNode* nextLetterNode = this->alphabet[alphabetIndex];
+
+	if (nextLetterNode == nullptr) {
+		nextLetterNode = new TrieNode();
+		this->alphabet[alphabetIndex] = nextLetterNode;
+	}
 
 	if (nextLetterNode->value != nextCharacter) {
 		// If the next node already has it's value set, it means it's already been inserted into this subtree, 
@@ -130,6 +127,10 @@ bool TrieNode::find(string value)
 	int alphabetIndex = index(nextCharacter);
 
 	TrieNode* nextLetterNode = this->alphabet[alphabetIndex];
+
+	if (nextLetterNode == nullptr) {
+		return false;
+	}
 
 	string leftovers = value.substr(1, value.length());
 
@@ -172,6 +173,10 @@ void TrieNode::traverse(vector<string>& results, string prefix) {
 	for (int i = 0; i < ALPHABET_SIZE - 1; i++) {
 		// We go to ALPHABET_SIZE - 1 to skip the END_OF_WORD index.
 		TrieNode* currentNode = this->alphabet[i];
+
+		if (currentNode == nullptr) {
+			continue;
+		}
 
 		if (currentNode->value != EMPTY_NODE) {
 			// If we have a node for this letter, call traverse on it.
