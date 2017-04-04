@@ -53,9 +53,41 @@ int Trie::completeCount(string value)
 }
 
 
+bool Trie::read(string filename) {
+	ifstream infile(filename);
+
+	if (!infile.good()) {
+		// The file doesn't exist.
+		return false;
+	}
+
+	string line;
+
+	while (getline(infile, line)) {
+		this->insert(line);
+	}
+}
+
+
 vector<string> Trie::complete(string value)
 {
-	return vector<string>();
+	TrieNode* nextNode = this->root;
+
+	for (int i = 0; i < value.length(); i++) {
+		char nextCharacter = value.at(i);
+		
+		if (nextNode->getChild(nextCharacter) == nullptr) {
+			// We couldn't find the value given, so there are no completions available.
+			return vector<string>();
+		}
+
+		nextNode = nextNode->getChild(nextCharacter);
+	}
+
+	vector<string> results = vector<string>();
+	nextNode->traverse(results, value.substr(0, value.length() - 1));
+
+	return results;
 }
 
 

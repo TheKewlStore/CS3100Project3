@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <algorithm>
 #include "Trie.h"
 
 
@@ -53,6 +54,42 @@ bool testSizeAndCount() {
 }
 
 
+bool testComplete() {
+	Trie myTrie;
+
+	vector<string> results = myTrie.complete("unfound");
+
+	if (results.size() != 0) {
+		cout << "Trie::complete returns a vector with something in it when no words exist in the trie" << endl;
+		return false;
+	}
+
+	myTrie.insert("test");
+	myTrie.insert("testing");
+	myTrie.insert("testingtesting");
+	myTrie.insert("testers");
+	myTrie.insert("unrelated");
+
+	results = myTrie.complete("tes");
+
+	if (results.size() != 4) {
+		cout << "Trie::complete does not return the proper number of elements" << endl;
+		return false;
+	}
+
+	myTrie.insert("testingtesting");
+	myTrie.insert("unrelatedtwo");
+
+	results = myTrie.complete("testin");
+
+	if (results.size() != 2) {
+		cout << "Trie::complete does not return the proper number of elements after inserting more elements" << endl;
+		return false;
+	}
+
+}
+
+
 void checkTestSuccess(bool success, int& passes, int& failures) {
 	if (success) {
 		cout << ".";
@@ -71,6 +108,7 @@ int main()
 
 	checkTestSuccess(testInsert(), passes, failures);
 	checkTestSuccess(testSizeAndCount(), passes, failures);
+	checkTestSuccess(testComplete(), passes, failures);
 
 	cout << endl;
 
@@ -82,6 +120,34 @@ int main()
 	else {
 		cout << "PASSED" << endl;
 		cout << "Tests Ran: " << passes << endl;
+	}
+
+	Trie myTrie;
+
+	myTrie.read(".\\wordlist.txt");
+
+	cout << "Please enter a word prefix (or press enter to exit): ";
+
+	string input;
+
+	while (getline(cin, input)) {
+		if (input == "") {
+			break;
+		}
+
+		vector<string> completions = myTrie.complete(input);
+
+		if (completions.size() == 0) {
+			cout << "No completions available" << endl;
+		} else {
+			cout << "Completions: " << endl << "--------------" << endl;
+
+			for (string completion : completions) {
+				cout << completion << endl;
+			}
+		}
+
+		cout << "Please enter a word prefix (or press enter to exit): ";
 	}
 
 	system("pause");
