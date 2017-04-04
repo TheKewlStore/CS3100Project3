@@ -86,6 +86,7 @@ void TrieNode::insert(string value, int& count)
 	TrieNode* nextLetterNode = this->alphabet[alphabetIndex];
 
 	if (nextLetterNode == nullptr) {
+		// We haven't inserted this node yet, so do it now.
 		nextLetterNode = new TrieNode();
 		this->alphabet[alphabetIndex] = nextLetterNode;
 	}
